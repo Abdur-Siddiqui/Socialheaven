@@ -28,7 +28,5 @@ class chatUser extends Model
     {
         return $this->hasMany(message::class);
     }
-
 }
-
 ?>

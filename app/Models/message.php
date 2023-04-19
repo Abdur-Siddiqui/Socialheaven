@@ -27,7 +27,5 @@ class message extends Model
     {
         return $this->belongsTo(chatRoom::class);
     }
-
 }
-
 ?>

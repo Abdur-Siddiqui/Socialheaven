@@ -24,5 +24,4 @@ class chatRoom extends Model
         return $this->hasMany(message::class);
     }
 }
-
 ?>
