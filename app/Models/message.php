@@ -21,9 +21,13 @@ class message extends Model
         return $this->belongsTo(chatUser::class);
     }
 
+
+    
     public function chatRoom():BelongsTo
     {
         return $this->belongsTo(chatRoom::class);
     }
 
 }
+
+?>
