@@ -131,8 +131,8 @@ class ChatroomController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('public/images');
-            $data['image_path'] = $path;
+            $path = $request->file('image')->store('public');
+            $data['image_path'] = basename($path);
         }
 
         $data['sender_id'] = auth()->id();

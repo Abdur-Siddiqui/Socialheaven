@@ -13,6 +13,7 @@ class Message extends Model
         'chatroom_id',
         'sender_id',
         'content',
+        'image_path'
     ];
 
     public function chatroom()
