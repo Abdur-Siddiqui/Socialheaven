@@ -64,6 +64,8 @@ Run `php artisan serve` to start the development server.
 
 Run `npm run dev` to compile the frontend.
 
+❗ If you're using storage public directory for your image uploads, make sure to run `php artisan storage:link`
+
 Enjoy! 🤟
 
 
