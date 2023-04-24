@@ -30,7 +30,7 @@ const ShowChatroom = ({auth, chatroom, messages}) => {
                                             {message.image_path && (
                                                 <img src={`/storage/${message.image_path}`}
                                                         alt="Message image"
-                                                        className="max-w-[300px] h-auto"
+                                                        className="max-w-[300px] h-auto mt-4 rounded"
                                                 />
                                             )}
                                         </div>
