@@ -6,6 +6,7 @@ use App\Models\Chatroom;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ChatroomController extends Controller
@@ -18,7 +19,7 @@ class ChatroomController extends Controller
         $chatrooms = $user->chatrooms->merge($user->createdChatrooms);
 
         return Inertia::render('Dashboard', [
-            'auth' => [
+            'auth'      => [
                 'user' => $user,
             ],
             'chatrooms' => $chatrooms,
@@ -37,10 +38,10 @@ class ChatroomController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255|unique:chatrooms',
+            'name'        => 'required|string|max:255|unique:chatrooms',
             'description' => 'nullable|string',
-            'is_private' => 'required|boolean',
-            'password' => 'nullable|required_if:is_private,true|string',
+            'is_private'  => 'required|boolean',
+            'password'    => 'nullable|required_if:is_private,true|string',
         ]);
 
         $data['creator_id'] = auth()->id();
@@ -58,9 +59,9 @@ class ChatroomController extends Controller
     public function update(Request $request, Chatroom $chatroom)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
-            'password' => 'nullable|string',
+            'password'    => 'nullable|string',
         ]);
 
         $chatroom->update($data);
@@ -113,7 +114,7 @@ class ChatroomController extends Controller
         $messages = $chatroom->messages()->with('sender')->get();
 
         return Inertia::render('Chatroom/Show', [
-            'auth' => [
+            'auth'     => [
                 'user' => auth()->user(),
             ],
             'chatroom' => $chatroom,
@@ -127,17 +128,19 @@ class ChatroomController extends Controller
 
         $data = $request->validate([
             'content' => 'required|string|max:1000',
-            'image' => 'nullable|image|max:2048',
+            'image'   => 'nullable|image|max:2000',
         ]);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('public');
-            $data['image_path'] = basename($path);
+            $file = $request->file('image');
+            Storage::disk('s3')->put($file->getClientOriginalName(), file_get_contents($file));
+            $data['image_path'] = 'https://'.config('filesystems.disks.s3.bucket').'.s3.'.config(
+                    'filesystems.disks.s3.region'
+                ).'.amazonaws.com/'.$file->getClientOriginalName();
         }
 
         $data['sender_id'] = auth()->id();
         $data['chatroom_id'] = $chatroom->id;
-
         $message = Message::create($data);
 
         return back();

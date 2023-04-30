@@ -26,11 +26,11 @@ const ShowChatroom = ({auth, chatroom, messages}) => {
                                     <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
                                         <div>
                                             <span
-                                            className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600 text-base">{message.content}</span>
+                                                className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600 text-base">{message.content}</span>
                                             {message.image_path && (
-                                                <img src={`/storage/${message.image_path}`}
-                                                        alt="Message image"
-                                                        className="max-w-[300px] h-auto mt-4 rounded"
+                                                <img src={message.image_path}
+                                                     alt="Message image"
+                                                     className="max-w-[400px] h-auto mt-2 rounded"
                                                 />
                                             )}
                                         </div>
