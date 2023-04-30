@@ -1,10 +1,20 @@
-import React from 'react';
-import {Head} from "@inertiajs/react";
+import React, {useEffect} from 'react';
+import {Head, router} from "@inertiajs/react";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import ChatMessageForm from "@/Components/ChatMessageForm";
 
-
 const ShowChatroom = ({auth, chatroom, messages}) => {
+    let intervalHandler;
+
+    useEffect(() => {
+        intervalHandler = window.setInterval(() => {
+            router.reload({ only: ['messages'] })
+        }, 3000);
+
+        return function cleanup() {
+            window.clearInterval(intervalHandler);
+        };
+    });
 
     return (
         <AuthenticatedLayout
